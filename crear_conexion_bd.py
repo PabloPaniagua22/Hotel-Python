@@ -30,7 +30,7 @@ import pyodbc
 
 
 
-def conectar_bd(server='(localdb)\\PaniG5', database='reservahotel1', trusted_connection=True, usuario='', contrasena=''):
+def conectar_bd(server='(localdb)\\PaniG5', database='RESERVA_HOTEL', trusted_connection=True, usuario='', contrasena=''):
     try:
         # Construcción de la cadena de conexión
         if trusted_connection:

@@ -34,6 +34,7 @@ tabControl.pack(expand=1, fill="both")
 frame_huesped_nuevo = ttk.LabelFrame(tab_huesped, text="Nuevo Huésped")
 frame_huesped_nuevo.pack(fill="x", padx=20, pady=20)
 
+# Campos de entrada
 ctk.CTkLabel(frame_huesped_nuevo, text="DNI").grid(row=0, column=0)
 entry_DNI = ctk.CTkEntry(frame_huesped_nuevo)
 entry_DNI.grid(row=0, column=1)
@@ -54,35 +55,35 @@ ctk.CTkLabel(frame_huesped_nuevo, text="Teléfono").grid(row=4, column=0)
 entry_telefono = ctk.CTkEntry(frame_huesped_nuevo)
 entry_telefono.grid(row=4, column=1)
 
-ctk.CTkLabel(frame_huesped_nuevo, text="Mail").grid(row=5, column=0)
-entry_Mail = ctk.CTkEntry(frame_huesped_nuevo)
-entry_Mail.grid(row=5, column=1)
+ctk.CTkLabel(frame_huesped_nuevo, text="Email").grid(row=5, column=0)
+entry_email = ctk.CTkEntry(frame_huesped_nuevo)
+entry_email.grid(row=5, column=1)
 
 ctk.CTkLabel(frame_huesped_nuevo, text="Domicilio").grid(row=6, column=0)
-entry_Domicilio = ctk.CTkEntry(frame_huesped_nuevo)
-entry_Domicilio.grid(row=6, column=1)
+entry_domicilio = ctk.CTkEntry(frame_huesped_nuevo)
+entry_domicilio.grid(row=6, column=1)
 
-# Agregar un select para 'Condicion_IVA' con las opciones
-ctk.CTkLabel(frame_huesped_nuevo, text="Condición_IVA").grid(row=7, column=0)
+# ComboBox para 'Condicion_IVA'
+ctk.CTkLabel(frame_huesped_nuevo, text="Condición IVA").grid(row=7, column=0)
 combo_condicion_iva = ctk.CTkComboBox(frame_huesped_nuevo, values=["Responsable Inscripto", "Exento", "Monotributista", "Consumidor Final"])
 combo_condicion_iva.grid(row=7, column=1)
 
-# Agregar un select para 'Tipo_Cliente' con las opciones
-ctk.CTkLabel(frame_huesped_nuevo, text="Tipo_Cliente").grid(row=8, column=0)
-combo_Tipo_Cliente = ctk.CTkComboBox(frame_huesped_nuevo, values=["Nuevo", "Regular", "VIP"])
-combo_Tipo_Cliente.grid(row=8, column=1)
+# ComboBox para 'Tipo_Huesped'
+ctk.CTkLabel(frame_huesped_nuevo, text="Tipo Huesped").grid(row=8, column=0)
+combo_tipo_huesped = ctk.CTkComboBox(frame_huesped_nuevo, values=["VIP", "Gold", "Platinum", "Corporativo"])
+combo_tipo_huesped.grid(row=8, column=1)
 
-# Agregar el campo de fecha de nacimiento
-ctk.CTkLabel(frame_huesped_nuevo, text="Fecha de Nacimiento (FNAC)").grid(row=9, column=0)
+# Campo para Fecha de Nacimiento
+ctk.CTkLabel(frame_huesped_nuevo, text="Fecha de Nacimiento").grid(row=9, column=0)
 date_entry_fnac = DateEntry(frame_huesped_nuevo, date_pattern='yyyy-mm-dd')
 date_entry_fnac.grid(row=9, column=1)
 
-# Agregar el campo de Observaciones
+# Campo para Observaciones
 ctk.CTkLabel(frame_huesped_nuevo, text="Observaciones").grid(row=10, column=0)
 entry_observaciones = ctk.CTkEntry(frame_huesped_nuevo)
 entry_observaciones.grid(row=10, column=1)
 
-# Botón para agregar el huésped
+# Botón para agregar huésped
 boton_agregar_huesped = ctk.CTkButton(
     frame_huesped_nuevo,
     text="Agregar Huésped",
@@ -92,44 +93,94 @@ boton_agregar_huesped = ctk.CTkButton(
         nombre=entry_nombre.get(),
         apellido=entry_apellido.get(),
         telefono=entry_telefono.get(),
-        mail=entry_Mail.get(),
-        domicilio=entry_Domicilio.get(),
+        email=entry_email.get(),
+        domicilio=entry_domicilio.get(),
         condicion_iva=combo_condicion_iva.get(),
-        tipo_cliente=combo_Tipo_Cliente.get(),
-        fnac=date_entry_fnac.get(),
+        tipo_huesped=combo_tipo_huesped.get(),
+        fecha_nacimiento=date_entry_fnac.get(),
         observaciones=entry_observaciones.get()
     )
 )
 boton_agregar_huesped.grid(row=11, column=0, columnspan=2, pady=10)
 
-# Agregar el botón para generar Faker
+# Botón para generar datos Faker
 ctk.CTkButton(frame_huesped_nuevo, text="Generar Faker", command=generar_huesped).grid(row=12, column=0, columnspan=2)
 
 # Tabla para ver huéspedes
-frame_ver_huesped = ttk.LabelFrame(tab_verHuesped, text="Ver Huésped")
+frame_ver_huesped = ttk.LabelFrame(tab_verHuesped, text="Ver Huéspedes")
 frame_ver_huesped.pack(fill="both", expand=True, padx=10, pady=10)
 
-tree_huesped = ttk.Treeview(frame_ver_huesped, columns=("ID", "DNI", "CUIL", "Nombre", "Apellido", "Teléfono", "Mail", "Domicilio", "Condición_IVA", "Tipo_Cliente", "Fecha de Nacimiento (FNAC)", "Observaciones"), show="headings")
-tree_huesped.heading("ID", text="ID")
-tree_huesped.heading("DNI", text="DNI ")
-tree_huesped.heading("CUIL", text="CUIL")
-tree_huesped.heading("Nombre", text="Nombre")
-tree_huesped.heading("Apellido", text="Apellido")
-tree_huesped.heading("Teléfono", text="Teléfono")
-tree_huesped.heading("Mail", text="Mail")
-tree_huesped.heading("Domicilio", text="Domicilio")
-tree_huesped.heading("Condición_IVA", text="Condición_IVA")
-tree_huesped.heading("Tipo_Cliente", text="Tipo_Cliente")
-tree_huesped.heading("Fecha de Nacimiento (FNAC)", text="Fecha de Nacimiento (FNAC)")
-tree_huesped.heading("Observaciones", text="Observaciones")
+tree_huesped = ttk.Treeview(
+    frame_ver_huesped,
+    columns=("ID_HUESPED", "DNI", "CUIL", "NOMBRE", "APELLIDO", "TELEFONO", "EMAIL", "DOMICILIO", "CONDICION_IVA", "TIPO_HUESPED", "FECHA_NACIMIENTO", "OBSERVACIONES"),
+    show="headings"
+)
 
+# Configuración de los encabezados
+tree_huesped.heading("ID_HUESPED", text="ID")
+tree_huesped.heading("DNI", text="DNI")
+tree_huesped.heading("CUIL", text="CUIL")
+tree_huesped.heading("NOMBRE", text="Nombre")
+tree_huesped.heading("APELLIDO", text="Apellido")
+tree_huesped.heading("TELEFONO", text="Teléfono")
+tree_huesped.heading("EMAIL", text="Email")
+tree_huesped.heading("DOMICILIO", text="Domicilio")
+tree_huesped.heading("CONDICION_IVA", text="Condición IVA")
+tree_huesped.heading("TIPO_HUESPED", text="Tipo Huésped")
+tree_huesped.heading("FECHA_NACIMIENTO", text="Fecha de Nacimiento")
+tree_huesped.heading("OBSERVACIONES", text="Observaciones")
+
+# Configuración del ancho de las columnas
+tree_huesped.column("ID_HUESPED", width=50, anchor="center")
+tree_huesped.column("DNI", width=100, anchor="center")
+tree_huesped.column("CUIL", width=100, anchor="center")
+tree_huesped.column("NOMBRE", width=150, anchor="w")
+tree_huesped.column("APELLIDO", width=150, anchor="w")
+tree_huesped.column("TELEFONO", width=100, anchor="center")
+tree_huesped.column("EMAIL", width=200, anchor="w")
+tree_huesped.column("DOMICILIO", width=200, anchor="w")
+tree_huesped.column("CONDICION_IVA", width=120, anchor="w")
+tree_huesped.column("TIPO_HUESPED", width=120, anchor="w")
+tree_huesped.column("FECHA_NACIMIENTO", width=120, anchor="center")
+tree_huesped.column("OBSERVACIONES", width=200, anchor="w")
+
+# Mostrar el Treeview en el frame
 tree_huesped.pack(fill="both", expand=True)
 
-# Llamar a obtener_huespedes para cargar los datos en la interfaz gráfica
+# Llamar a obtener_huespedes
 obtener_huespedes(tree_huesped)
 
-ctk.CTkButton(frame_ver_huesped, text="Editar", command=lambda: actualizar_huesped(tree_huesped.selection())).pack(side="left", padx=5, pady=5)
-ctk.CTkButton(frame_ver_huesped, text="Eliminar", command=lambda: eliminar_huesped(tree_huesped.selection())).pack(side="left", padx=5, pady=5)
+# Botones para Editar y Eliminar
+ctk.CTkButton(frame_ver_huesped, text="Editar", command=lambda: editar_huesped(tree_huesped)).pack(side="left", padx=5, pady=5)
+def eliminar_huesped_seleccion(treeview):
+    seleccion = treeview.selection()  # Obtener selección actual
+    if not seleccion:
+        print("No se ha seleccionado ningún huésped.")
+        return
+
+    # Obtener valores de la fila seleccionada
+    item = treeview.item(seleccion[0])
+    valores = item["values"]
+
+    if not valores:
+        print("No se encontraron valores en la fila seleccionada.")
+        return
+
+    id_huesped = valores[0]  # El ID_HUESPED debería estar en la primera columna
+    try:
+        eliminar_huesped(id_huesped)  # Llamar a la función en Huesped.py
+        print(f"Huésped con ID {id_huesped} eliminado.")
+        obtener_huespedes(treeview)  # Refrescar la tabla después de eliminar
+    except Exception as e:
+        print(f"Error al eliminar huésped: {e}")
+
+# Botón Eliminar
+ctk.CTkButton(
+    frame_ver_huesped,
+    text="Eliminar",
+    command=lambda: eliminar_huesped_seleccion(tree_huesped)
+).pack(side="left", padx=5, pady=5)
+
 
 # Finaliza con el bucle principal de tkinter
 root.mainloop()
