@@ -2,49 +2,53 @@ from crear_conexion_bd import conectar_bd
 import random
 from faker import Faker
 from tkinter import simpledialog, messagebox
-import datetime
 
 fake = Faker()
-def crear_empleado(nombre, apellido, dni, telefono, email, direccion, tipo_empleado, salario, fecha_contratacion):
+
+# Crear empleado en la base de datos
+def crear_empleado(nombre, apellido, dni, telefono, email, domicilio, tipo_empleado, salario, fecha_contratacion):
     conexion = conectar_bd()
     if conexion:
         cursor = conexion.cursor()
         cursor.execute("""
-            INSERT INTO Empleado (Nombre, Apellido, DNI, Telefono, Email, Direccion, Tipo_Empleado, Salario, Fecha_Contratacion)
+            INSERT INTO EMPLEADOS (NOMBRE, APELLIDO, DNI, TELEFONO, EMAIL, DOMICILIO, TIPO_EMPLEADO, SALARIO, FECHA_CONTRATACION)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-        """, (nombre, apellido, dni, telefono, email, direccion, tipo_empleado, salario, fecha_contratacion))
+        """, (nombre, apellido, dni, telefono, email, domicilio, tipo_empleado, salario, fecha_contratacion))
         conexion.commit()
         conexion.close()
 
+# Obtener todos los empleados
 def obtener_empleados():
     conexion = conectar_bd()
     if conexion:
         cursor = conexion.cursor()
-        cursor.execute("SELECT * FROM Empleado")
+        cursor.execute("SELECT * FROM EMPLEADOS")
         empleados = cursor.fetchall()
         conexion.close()
         return empleados
 
-def actualizar_empleado(id_empleado, nombre, apellido, dni, telefono, email, direccion, tipo_empleado, salario, fecha_contratacion):
+# Actualizar empleado
+def actualizar_empleado(id_empleado, nombre, apellido, dni, telefono, email, domicilio, tipo_empleado, salario, fecha_contratacion):
     conexion = conectar_bd()
     if conexion:
         cursor = conexion.cursor()
         cursor.execute("""
-            UPDATE Empleado SET Nombre = ?, Apellido = ?, DNI = ?, Telefono = ?, Email = ?, Direccion = ?, Tipo_Empleado = ?, Salario = ?, Fecha_Contratacion = ?
-            WHERE ID_Empleado = ?
-        """, (nombre, apellido, dni, telefono, email, direccion, tipo_empleado, salario, fecha_contratacion, id_empleado))
+            UPDATE EMPLEADOS SET NOMBRE = ?, APELLIDO = ?, DNI = ?, TELEFONO = ?, EMAIL = ?, DOMICILIO = ?, TIPO_EMPLEADO = ?, SALARIO = ?, FECHA_CONTRATACION = ?
+            WHERE ID_EMPLEADO = ?
+        """, (nombre, apellido, dni, telefono, email, domicilio, tipo_empleado, salario, fecha_contratacion, id_empleado))
         conexion.commit()
         conexion.close()
 
+# Eliminar empleado
 def eliminar_empleado(id_empleado):
     conexion = conectar_bd()
     if conexion:
         cursor = conexion.cursor()
-        cursor.execute("DELETE FROM Empleado WHERE ID_Empleado = ?", (id_empleado,))
+        cursor.execute("DELETE FROM EMPLEADOS WHERE ID_EMPLEADO = ?", (id_empleado,))
         conexion.commit()
         conexion.close()
 
-# Función para generar empleados con cantidad definida
+# Generar empleados con Faker
 def generar_empleado():
     cantidad_registros = simpledialog.askinteger("Cantidad de Empleados", "¿Cuántos registros de empleado deseas crear?")
 
@@ -54,16 +58,27 @@ def generar_empleado():
 
     for _ in range(cantidad_registros):
         empleado = {
-            'Nombre': fake.first_name(),
-            'Apellido': fake.last_name(),
+            'NOMBRE': fake.first_name(),
+            'APELLIDO': fake.last_name(),
             'DNI': fake.unique.ssn(),
-            'Telefono': fake.phone_number(),
-            'Email': fake.email(),
-            'Direccion': fake.address(),
-            'Tipo_Empleado': random.choice(['Administrativo', 'Recepcionista', 'Limpieza', 'Gerente']),
-            'Salario': round(random.uniform(15000, 50000), 2),
-            'Fecha_Contratacion': fake.date_this_decade()
+            'TELEFONO': fake.phone_number(),
+            'EMAIL': fake.email(),
+            'DOMICILIO': fake.address(),
+            'TIPO_EMPLEADO': random.choice(['Administrativo', 'Recepcionista', 'Mucama', 'Gerente']),
+            'SALARIO': round(random.uniform(15000, 50000), 2),
+            'FECHA_CONTRATACION': fake.date_this_decade()
         }
-        # Aquí puedes insertar el registro en la base de datos
+        # Insertar empleado en la base de datos
+        crear_empleado(
+            empleado['NOMBRE'],
+            empleado['APELLIDO'],
+            empleado['DNI'],
+            empleado['TELEFONO'],
+            empleado['EMAIL'],
+            empleado['DOMICILIO'],
+            empleado['TIPO_EMPLEADO'],
+            empleado['SALARIO'],
+            empleado['FECHA_CONTRATACION']
+        )
     
     messagebox.showinfo("Generación Completa", f"Se han generado {cantidad_registros} registros de empleado.")

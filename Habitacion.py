@@ -6,14 +6,14 @@ import datetime
 fake = Faker()
 
 # Función para crear una habitación
-def crear_habitacion(cantidad_huespedes, costo, cantidad_camas, cantidad_baños, frigobar, disponibilidad, observaciones):
+def crear_habitacion(cantidad_camas, costo, frigobar, observaciones):
     conexion = conectar_bd()
     if conexion:
         cursor = conexion.cursor()
         cursor.execute("""
-            INSERT INTO Habitacion (Cantidad_Huespedes, Costo, Cantidad_Camas, Cantidad_Baños, Frigobar, Disponibilidad, Observaciones)
-            VALUES (?, ?, ?, ?, ?, ?, ?)
-        """, (cantidad_huespedes, costo, cantidad_camas, cantidad_baños, frigobar, disponibilidad, observaciones))
+            INSERT INTO HABITACIONES (CANTIDAD_CAMAS, COSTO, FRIGOBAR, OBSERVACIONES)
+            VALUES (?, ?, ?, ?)
+        """, (cantidad_camas, costo, frigobar, observaciones))
         conexion.commit()
         conexion.close()
 
@@ -22,20 +22,20 @@ def obtener_habitaciones():
     conexion = conectar_bd()
     if conexion:
         cursor = conexion.cursor()
-        cursor.execute("SELECT * FROM Habitacion")
+        cursor.execute("SELECT * FROM HABITACIONES")
         habitaciones = cursor.fetchall()
         conexion.close()
         return habitaciones
 
 # Función para actualizar una habitación
-def actualizar_habitacion(id_habitacion, cantidad_huespedes, costo, cantidad_camas, cantidad_baños, frigobar, disponibilidad, observaciones):
+def actualizar_habitacion(id_habitacion, cantidad_camas, costo, frigobar, observaciones):
     conexion = conectar_bd()
     if conexion:
         cursor = conexion.cursor()
         cursor.execute("""
-            UPDATE Habitacion SET Cantidad_Huespedes = ?, Costo = ?, Cantidad_Camas = ?, Cantidad_Baños = ?, Frigobar = ?, Disponibilidad = ?, Observaciones = ?
-            WHERE ID_Habitacion = ?
-        """, (cantidad_huespedes, costo, cantidad_camas, cantidad_baños, frigobar, disponibilidad, observaciones, id_habitacion))
+            UPDATE HABITACIONES SET CANTIDAD_CAMAS = ?, COSTO = ?, FRIGOBAR = ?, OBSERVACIONES = ?
+            WHERE ID_HABITACION = ?
+        """, (cantidad_camas, costo, frigobar, observaciones, id_habitacion))
         conexion.commit()
         conexion.close()
 
@@ -44,7 +44,7 @@ def eliminar_habitacion(id_habitacion):
     conexion = conectar_bd()
     if conexion:
         cursor = conexion.cursor()
-        cursor.execute("DELETE FROM Habitacion WHERE ID_Habitacion = ?", (id_habitacion,))
+        cursor.execute("DELETE FROM HABITACIONES WHERE ID_HABITACION = ?", (id_habitacion,))
         conexion.commit()
         conexion.close()
 
@@ -58,14 +58,17 @@ def generar_habitacion():
 
     for _ in range(cantidad_registros):
         habitacion = {
-            'Cantidad_Huespedes': random.randint(1, 4),
-            'Costo': round(random.uniform(50, 200), 2),
             'Cantidad_Camas': random.randint(1, 3),
-            'Cantidad_Baños': random.randint(1, 2),
+            'Costo': round(random.uniform(50, 200), 2),
             'Frigobar': random.choice([True, False]),
-            'Disponibilidad': random.choice([True, False]),
             'Observaciones': fake.text()
         }
-        # Aquí puedes insertar el registro en la base de datos
+        # Insertamos los registros generados en la base de datos
+        crear_habitacion(
+            habitacion['Cantidad_Camas'], 
+            habitacion['Costo'], 
+            habitacion['Frigobar'], 
+            habitacion['Observaciones']
+        )
     
     messagebox.showinfo("Generación Completa", f"Se han generado {cantidad_registros} registros de habitación.")

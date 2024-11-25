@@ -37,7 +37,7 @@ class MainMenu:
             "Gestión de Empleados",
             "Administrar información de Empleados",
             0, 0,
-            lambda: self.abrir_modulo("Tk_Huesped.py")
+            lambda: self.abrir_modulo("Tk_Empleados.py")
         )
 
         self.create_module_button(
@@ -53,7 +53,7 @@ class MainMenu:
             "Gestión de Habitacion",
             "Administrar información de Habitaciones",
             1, 0,
-            lambda: self.abrir_modulo("Tk_Empleados.py")
+            lambda: self.abrir_modulo("Tk_Habitacion.py")
         )
 
         self.create_module_button(
@@ -64,19 +64,19 @@ class MainMenu:
             lambda: self.abrir_modulo("Tk_ServiciosAdicionales.py")
         )
         
-        self.create_module_button(
-            button_frame,
-            "Gestion de Habitaciones",
-            "Gestion de las habitaciones",
-            1, 2,
-            lambda: self.abrir_modulo("Tk_Habitacion.py")
-        )
+        # self.create_module_button(
+        #     button_frame,
+        #     "Gestion de Habitaciones (ESTE NO VA)",
+        #     "Gestion de las habitaciones",
+        #     1, 2,
+        #     lambda: self.abrir_modulo("Tk_Habitacion.py")
+        # )
         self.create_module_button(
             button_frame,
             "Descuentos/Promociones",
             "Generar descuentos/promociones para los tipo de clientes",
             0, 2,
-            lambda: self.abrir_modulo("Tk_Habitacion.py")
+            lambda: self.abrir_modulo("Tk_Descuentos.py")
         )
 
         # Footer con información

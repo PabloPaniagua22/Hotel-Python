@@ -4,7 +4,7 @@ import subprocess
 import os
 
 
-class MainMenu:
+class ReportesMenu:
     def __init__(self):
         # Configuración del tema
         ctk.set_appearance_mode("light")
@@ -12,7 +12,7 @@ class MainMenu:
 
         # Configuración de la ventana principal
         self.root = ctk.CTk()
-        self.root.title("Sistema de Gestión Hotelera")
+        self.root.title("Reportes del Hotel")
         self.root.geometry("1200x700")
 
         # Frame principal con diseño de grid
@@ -22,7 +22,7 @@ class MainMenu:
         # Título
         titulo = ctk.CTkLabel(
             self.main_frame, 
-            text="Sistema de Gestión Hotelera", 
+            text="Reportes del Hotel", 
             font=ctk.CTkFont(size=24, weight="bold")
         )
         titulo.pack(pady=20)
@@ -34,48 +34,32 @@ class MainMenu:
         # Crear botones con íconos
         self.create_module_button(
             button_frame,
-            "Gestión de Huéspedes",
-            "Administrar información de huéspedes",
+            "Asistencia de Empleados",
+            "Generar reporte de asistencia",
             0, 1,
-            lambda: self.abrir_modulo("Tk_Huesped.py")
+            lambda: self.abrir_modulo("Tk_AsistenciaEmpleados.py")
         )
 
         self.create_module_button(
             button_frame,
-            "Gestión de Reservas",
-            "Administrar reservas y disponibilidad",
+            "Ingreso por Servicios Adicionales",
+            "Generar reporte de ingresos por servicios",
             0, 2,
-            lambda: self.abrir_modulo("Tk_Reserva.py")
+            lambda: self.abrir_modulo("Tk_IngresoServiciosAdicionales.py")
         )
 
         self.create_module_button(
             button_frame,
-            "Gestión de Presupuesto",
-            "Seccion para crear un presupuesto",
+            "Reservas Realizadas",
+            "Generar reporte de reservas realizadas",
             0, 3,
-            lambda: self.abrir_modulo("Tk_Presupuesto.py")
+            lambda: self.abrir_modulo("Tk_ReservasRealizadas.py")
         )
-
-        # self.create_module_button(
-        #     button_frame,
-        #     "Servicios Adicionales",
-        #     "Gestionar servicios extras del hotel",
-        #     1, 1,
-        #     lambda: self.abrir_modulo("Tk_ServiciosAdicionales.py")
-        # )
-        
-        # self.create_module_button(
-        #     button_frame,
-        #     "Gestion de Habitaciones",
-        #     "Gestion de las habitaciones",
-        #     1, 2,
-        #     lambda: self.abrir_modulo("Tk_Habitacion.py")
-        # )
 
         # Footer con información
         footer = ctk.CTkLabel(
             self.main_frame,
-            text="© 2024 Sistema de Gestión Hotelera - Todos los derechos reservados",
+            text="© 2024 Sistema de Reportes - Todos los derechos reservados",
             font=ctk.CTkFont(size=10)
         )
         footer.pack(side="bottom", pady=10)
@@ -124,5 +108,5 @@ class MainMenu:
         self.root.mainloop()
 
 if __name__ == "__main__":
-    app = MainMenu()
+    app = ReportesMenu()
     app.run()
